@@ -135,4 +135,11 @@ public interface User extends MessageReceiver {
      */
     public boolean isBot();
 
+    /**
+     * Gets the nickname of the user from the requested server.
+     *
+     * @return The nickname of the user from the requested server.
+     */
+    public String getNickname(Server server);
+
 }

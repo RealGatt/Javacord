@@ -70,6 +70,7 @@ public class ImplServer implements Server {
     private String name;
     private Region region;
     private int memberCount;
+    private String ownerid;
     private final boolean large;
 
     /**
@@ -80,7 +81,7 @@ public class ImplServer implements Server {
      */
     public ImplServer(JSONObject data, ImplDiscordAPI api) {
         this.api = api;
-
+        ownerid = data.getString("owner_id");
         name = data.getString("name");
         id = data.getString("id");
         region = Region.getRegionByKey(data.getString("region"));
@@ -136,6 +137,16 @@ public class ImplServer implements Server {
         }
 
         api.getServerMap().put(id, this);
+    }
+
+    @Override
+    public String getNickname(final String userid) throws Exception{
+        logger.debug("Trying to get nickname for {} from server {}", userid, ImplServer.this);
+        HttpResponse<JsonNode> response = Unirest.delete("https://discordapp.com/api/guilds/" + id + "/members/" + userid)
+                .header("authorization", api.getToken())
+                .asJson();
+        api.checkResponse(response);
+        return response.getBody().getObject().getString("nick");
     }
 
     @Override
@@ -237,6 +248,9 @@ public class ImplServer implements Server {
     public User getMemberById(String id) {
         return members.get(id);
     }
+
+    @Override
+    public User getOwner(){ return getMemberById(ownerid);}
 
     @Override
     public Collection<User> getMembers() {

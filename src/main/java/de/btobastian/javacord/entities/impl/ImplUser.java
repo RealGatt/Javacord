@@ -360,6 +360,16 @@ public class ImplUser implements User {
     }
 
     @Override
+    public String getNickname(Server server){
+        try {
+            return server.getNickname(id);
+        }catch (Exception e){
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    @Override
     public String getGame() {
         return game;
     }

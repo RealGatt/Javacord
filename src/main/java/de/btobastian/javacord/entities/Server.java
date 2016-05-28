@@ -111,6 +111,13 @@ public interface Server {
     public Collection<User> getMembers();
 
     /**
+     * Gets the User Object of the owner of the server.
+     *
+     * @return The owner of the server.
+     */
+    public User getOwner();
+
+    /**
      * Checks if an user is a member of this server.
      *
      * @param user The user to check.
@@ -125,6 +132,14 @@ public interface Server {
      * @return Whether the user is a member or not.
      */
     public boolean isMember(String userId);
+
+    /**
+     * Checks for the Nickname of the user
+     *
+     * @param userId The id of the user to check.
+     * @return The nickname of the user
+     */
+    public String getNickname(String userId) throws Exception;
 
     /**
      * Gets a collection with all roles of this server.
